@@ -1,0 +1,137 @@
+{% extends "index.html" %}
+{% block body3 %}
+<div class="main__intranet__container">
+    <div class="container__title">
+        {% if paciente %}
+   
+        <div class="main__intranet__title">
+            <br>
+            <h1>Configuracion de Especialidades</h1>
+        </div>
+    </div>
+
+<div class="btn-container">
+    &nbsp
+  <a class="btn btn-warning me-1" href="{% url 'addEspecialidad'  %}">
+    <i class="fa-solid fa-user-plus"></i>
+  </a>
+
+</div>
+
+
+
+
+
+    <div class="main__intranet__table__title intranet__table">
+
+        <table>
+
+            <thead>
+            <tr>
+                <th class="cells cellls__title">Nombres</th>
+                <th class="cells cellls__title">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for pacientes in paciente %}
+            <tr>
+                <td class="cells cells__content">{{ pacientes.nombre }}</td>
+              
+                <td class="cells cells__content">
+                    <!-- Modal - View Student -->
+                    <div class="modal" id="myModal{{pacientes.id}}" tabindex="-1" aria-labelledby="myModalLabel1"
+                         aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">
+                                        Especialidad: {{ pacientes.nombre }}
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                               
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <a class="btn btn-warning me-1" href="{% url 'editEspecialidad' pacientes.id %}">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                    </a>
+
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                            data-bs-target="#delete{{pacientes.id}}">
+                        <i class="fa-solid fa-trash fa-lg"></i>
+                    </button>
+                    <!-- Modal - Delete Student -->
+                    <div class="modal" id="delete{{pacientes.id}}" tabindex="-1" aria-labelledby="myModalLabel1"
+                         aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">
+                                        Paciente: {{ pacientes.nombre }}
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Estas seguro de Eliminar esta Especialidad?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <form action="{% url 'deleteEspecialidad' pacientes.id %}" method="POST">
+                                        {% csrf_token %}
+                                        <input type="submit" class="btn btn-primary" value="Delete">
+                                    </form>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </tr>
+            <tr>
+
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="pagination">
+    <span class="step-links">
+        {% if paciente.has_previous %}
+            <a href="?page=1">&laquo; Primero</a>
+            <a href="?page={{ paciente.previous_page_number }}">Anterior</a>
+        {% else %}
+            <span class="disabled">&laquo; Primero</span>
+            <span class="disabled">Anterior</span>
+        {% endif %}
+
+      {% for page in paciente.paginator.page_range %}
+    {% if paciente.number == page %}
+      <span class="current-page">{{ page }}</span>
+    {% else %}
+      <a href="?page={{ page }}">{{ page }}</a>
+    {% endif %}
+  {% endfor %}
+
+        {% if paciente.has_next %}
+            <a href="?page={{ paciente.next_page_number }}">Siguiente</a>
+            <a href="?page={{ paciente.paginator.num_pages }}">Último &raquo;</a>
+        {% else %}
+            <span class="disabled">Siguiente</span>
+            <span class="disabled">Último &raquo;</span>
+        {% endif %}
+    </span>
+
+        </div>
+
+
+    </div>
+    {% else %}
+    <h5 class="alert-primary ms-4 me-4">No hay pacientes registrados</h5>
+    {% endif %}
+
+    {% endblock %}

@@ -1,0 +1,33 @@
+{% extends "index.html" %}
+
+{% block body3 %}
+ <div class="main__intranet__container">
+<h3 class="text-center m-4">Agregar Medicos</h3>
+{% if success %}
+    <div class="alert alert-success" role="alert">
+        Medicos Agregado Con Exito
+        <a href="{% url 'medicos' %}" class="alert-link">Go To Home</a>
+    </div>
+{% else %}
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="card bg-light mb-3">
+  <div class="card-header">
+      <i class="fa-solid fa-address-card fa-lg"></i> Registro de Medicos</div>
+  <div class="card-body">
+      <form action="{% url 'addMedico' %}" method="POST">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <div class="form-group">
+          <button type="submit" class="btn btn-primary">Agregar</button>
+          &nbsp
+          <a href="{% url 'medicos' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+      </form>
+  </div>
+        </div>
+    </div>
+    </div>
+
+ {% endif %}
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends "index.html" %}
+{% block body3 %}
+<div class="main__intranet__container">
+    <div class="container__title">
+        <div class="main__intranet__title">
+            <br>
+            <h1>Validar Seguros</h1>
+        </div>
+    </div>
+    <div class="btn-container">
+        <form method="post" action="{% url 'seleccionar_seguro' %}" class="mb-3">
+            {% csrf_token %}
+            <div class="form-group">
+                &nbsp <label for="seguro" class="form-label">Seleccione el tipo de seguro:</label>
+                &nbsp 
+                <select name="seguro" id="seguro" class="form-select">
+                    {% for s in seguros %}
+                        <option value="{{ s.id }}">{{ s.nombre }}</option>
+                    {% endfor %}
+                </select>
+                &nbsp 
+                <button type="submit" class="btn btn-primary">Seleccionar</button>
+            </div>
+        </form>
+    </div>
+
+ 
+        <div class="main__intranet__table__title intranet__table">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="cells cellls__title">Nombre</th>
+                        <th class="cells cellls__title">Apellidos</th>
+                        <th class="cells cellls__title">DNI</th>
+                        <!-- Agrega más encabezados según tus necesidades -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for paciente in pacientes %}
+                        <tr>
+                            <td class="cells cells__content">{{ paciente.name }}</td>
+                            <td class="cells cells__content">{{ paciente.lastName }}</td>
+                            <td class="cells cells__content">{{ paciente.dni }}</td>
+                            <!-- Agrega más columnas según tus necesidades -->
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+  
+
+ 
+
+    <div class="main__intranet__title">
+        <br>
+        <h1>Beneficios</h1>
+    </div>
+        <div class="main__intranet__table__title intranet__table">
+        <table>
+            <thead>
+                <tr>
+                    <th class="cells cellls__title">Beneficio</th>
+                    <th class="cells cellls__title">Descuento</th>
+                    <th class="cells cellls__title">Especialidad</th>
+                    <!-- Agrega más encabezados según tus necesidades -->
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+            {% for beneficio in informacion_adicional.beneficios %}
+                <td class="cells cells__content">{{ beneficio.beneficio }}</td>
+                <td class="cells cells__content">{{ beneficio.cobertura.descuento }} %</td>
+                <td class="cells cells__content">{{ beneficio.cobertura.Especialidad }}</td>
+            {% endfor %}
+                </tr>
+            </tbody>
+        </table>
+        </div>
+   
+</div>
+{% endblock %}

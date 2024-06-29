@@ -1,0 +1,120 @@
+{% extends "index.html" %}
+{% block body3 %}
+<div class="main__intranet__container">
+    <div class="container__title">
+        
+        <div class="main__intranet__title">
+            <br>
+            <h1>Sala de Operaciones</h1>
+        </div>
+    </div>
+
+<div class="btn-container">
+    &nbsp 
+  <a class="btn btn-warning me-1" href="{% url 'addOperaciones'%}">
+    <i class="fa-solid fa-user-plus"></i>
+  </a>
+
+</div>
+
+    <div class="main__intranet__table__title intranet__table">
+
+        <table>
+
+            <thead>
+            <tr>
+                <th class="cells cellls__title">Sala de Operaciones</th>
+                <th class="cells cellls__title">Estado</th>
+               
+                <th class="cells cellls__title">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for citas in cita %}
+            <tr>
+                <td class="cells cells__content">{{ citas.nombre }}</td>
+                <td class="cells cells__content">{{ citas.estado }}</td>
+              
+                <td class="cells cells__content">
+                    <!-- Modal - View Citas -->
+                    <a class="btn btn-warning me-1" href="{% url 'editOperaciones' citas.id %}">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                    </a>
+
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                            data-bs-target="#delete{{citas.id}}">
+                        <i class="fa-solid fa-trash fa-lg"></i>
+                    </button>
+                    <!-- Modal - Delete Student -->
+                    <div class="modal" id="delete{{citas.id}}" tabindex="-1" aria-labelledby="myModalLabel1"
+                         aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">
+                                        Sala de Operacion: {{ citas.nombre }}
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Estas seguro de Eliminar esta Operacion?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    
+                                    <form action="{% url 'deleteOperaciones' citas.id %}" method="POST">
+                                        {% csrf_token %}
+                                        <div class="form-group">
+                                        <input type="submit" class="btn btn-primary" value="Delete">
+                                    </form>
+                                   
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel
+                                    </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </tr>
+            <tr>
+
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="pagination">
+    <span class="step-links">
+        {% if cita.has_previous %}
+            <a href="?page=1">&laquo; Primero</a>
+            <a href="?page={{ cita.previous_page_number }}">Anterior</a>
+        {% else %}
+            <span class="disabled">&laquo; Primero</span>
+            <span class="disabled">Anterior</span>
+        {% endif %}
+
+      {% for page in cita.paginator.page_range %}
+    {% if cita.number == page %}
+      <span class="current-page">{{ page }}</span>
+    {% else %}
+      <a href="?page={{ page }}">{{ page }}</a>
+    {% endif %}
+  {% endfor %}
+
+        {% if cita.has_next %}
+            <a href="?page={{ cita.next_page_number }}">Siguiente</a>
+            <a href="?page={{ cita.paginator.num_pages }}">Último &raquo;</a>
+        {% else %}
+            <span class="disabled">Siguiente</span>
+            <span class="disabled">Último &raquo;</span>
+        {% endif %}
+    </span>
+
+        </div>
+
+
+    </div>
+   
+
+    {% endblock %}

@@ -1,0 +1,111 @@
+{% extends "index.html" %}
+{% block body3 %}
+                <div class="main__intranet__container">
+                    <div class="container__title">
+                      {% if user %}
+                        <div class="main__intranet__title">
+                          <br>
+                            <h1>Configuracion de Usuarios</h1>
+                        </div>
+                    </div>
+                    &nbsp
+                     <a class="btn btn-warning me-1" href="{% url 'create'  %}">
+                     <i class="fa-solid fa-user-plus"></i>
+                     </a>
+
+                    <div class="main__intranet__table__title intranet__table">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th class="cells cellls__title">Nombre</th>
+                                    <th class="cells cellls__title">Apellidos</th>
+                                    <th class="cells cellls__title">username</th>
+                                    <th class="cells cellls__title">Detalles</th>
+                                    <th class="cells cellls__title">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for user in users %}
+                                <tr>
+                                    <td class="cells cells__content">{{ user.first_name }}</td>
+                                    <td class="cells cells__content">{{ user.last_name }}</td>
+                                    <td class="cells cells__content">{{ user.username }}</td>
+
+                                    <td class="cells cells__content">
+                                        <button type="button" class="btn btn-success me-1" data-bs-toggle="modal" data-bs-target="#myModal{{user.id}}">
+                     <i class="fa-solid fa-circle-info fa-lg"></i>
+</button>
+                                    </td>
+<td class="cells cells__content">
+       <!-- Modal - View Student -->
+                      <div class="modal" id="myModal{{user.id}}" tabindex="-1" aria-labelledby="myModalLabel1" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">
+                                Usuarios: {{ user.name }} {{ user.lastName }}
+                              </h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true"></span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                              <ul class="list-unstyled">
+                                <li>Usuario id: <strong>{{ user.id }}</strong></li>
+                                <li>Email: <strong>{{ user.email }}</strong></li>
+
+                              </ul>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+         <a class="btn btn-warning me-1" href="{% url 'editUsuarios' user.id %}">
+             <i class="fa-regular fa-pen-to-square"></i>
+         </a>
+
+         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete{{user.id}}">
+             <i class="fa-solid fa-trash fa-lg"></i>
+         </button>
+         <!-- Modal - Delete Student -->
+                      <div class="modal" id="delete{{user.id}}" tabindex="-1" aria-labelledby="myModalLabel1" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">
+                                Usuario: {{ user.first_name }} {{ user.last_Name }}
+                              </h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true"></span>
+                              </button>
+                            </div>
+                            <div class="modal-body">
+                             <p>Estas seguro de Eliminar este Usuario?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <form action="{% url 'deleteUsuarios' user.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <input type="submit" class="btn btn-primary" value="Delete">
+                                </form>
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                                </tr>
+                                <tr>
+
+                                </tr>
+                             {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+ {% else %}
+       <h5 class="alert-primary ms-4 me-4">No hay Usuarios registrados</h5>
+      {% endif %}
+
+ {% endblock %}

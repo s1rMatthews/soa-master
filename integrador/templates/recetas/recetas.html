@@ -1,0 +1,174 @@
+{% extends "index.html" %}
+{% block body3 %}
+<div class="main__intranet__container">
+    <div class="container__title">
+
+        <div class="main__intranet__title">
+            <br>
+            <h1>Recetas Medicas</h1>
+        </div>
+    </div>
+
+<div class="btn-container">
+    &nbsp
+  <a class="btn btn-warning me-1" href="{% url 'addReceta' %}">
+    <i class="fa-solid fa-user-plus"></i>
+  </a>
+</div>
+<script>
+function exportToExcel() {
+    window.location.href = "{% url 'exportHistorias' %}";
+}
+</script>
+
+
+<script>
+function showButton() {
+  var fileInput = document.getElementById("file-input");
+  var submitButton = document.getElementById("submit-button");
+
+  if (fileInput.value != "") {
+    submitButton.style.display = "inline-block";
+  }
+}
+</script>
+
+
+
+    <div class="main__intranet__table__title intranet__table">
+
+        <table>
+
+            <thead>
+            <tr>
+                <th class="cells cellls__title">Cita</th>
+                <th class="cells cellls__title">Paciente</th>
+                <th class="cells cellls__title">Medico</th>
+                <th class="cells cellls__title">Detalles</th>
+                <th class="cells cellls__title">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for historias in historia %}
+            <tr>
+                <td class="cells cells__content">{{ historias.cita.fechaProgramada  }}</td>
+                <td class="cells cells__content">{{ historias.paciente.name}} {{ historias.paciente.lastName}}</td>
+                <td class="cells cells__content">{{ historias.medico.name}} {{ historias.medico.lastName}}</td>
+                <td class="cells cells__content">
+                    <button type="button" class="btn btn-success me-1" data-bs-toggle="modal"
+                            data-bs-target="#myModal{{historias.id}}">
+                        <i class="fa-solid fa-circle-info fa-lg"></i>
+                    </button>
+                </td>
+                <td class="cells cells__content">
+                    <!-- Modal - View Citas -->
+                    <div class="modal" id="myModal{{historias.id}}" tabindex="-1" aria-labelledby="myModalLabel1"
+                         aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">
+                                        Receta Medica: {{ tickets.id }}
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <ul class="list-unstyled">
+                                        <li>Paciente: <strong>{{ historias.paciente.name }} {{ historias.paciente.lastName }}</strong></li>
+                                        <li>Dni Paciente: <strong>{{ historias.paciente.dni }}{{historias.medico.lastName}}</strong></li>
+                                        <li>Medico: <strong>{{ historias.medico.name }}</strong></li>
+                                        <li>Cita: <strong>{{ historias.cita.fechaEmision }}</strong></li>
+                                        <li>Medicamento <strong>{{ historias.cita.fechaProgramada }}</strong></li>
+                                        <li>Dosis: <strong>{{ historias.dosis}}</strong></li>
+                                        <li>Observacion: <strong>{{ historias.observacion }}</strong></li>
+                                    </ul>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="btn btn-dark me-1" href="{% url 'previsualizar_receta' historias.id %} " target="_blank">
+                        <i class="fa-regular fa-file-pdf"></i>
+                    </a>
+
+                    <a class="btn btn-warning me-1" href="{% url 'editReceta' historias.id %}">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                    </a>
+
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                            data-bs-target="#delete{{historias.id}}">
+                        <i class="fa-solid fa-trash fa-lg"></i>
+                    </button>
+                    <!-- Modal - Delete Student -->
+                    <div class="modal" id="delete{{historias.id}}" tabindex="-1" aria-labelledby="myModalLabel1"
+                         aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">
+                                        Historia: {{ Historia.paciente.name }} {{ Historia.paciente.lastName }}
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Estas seguro de Eliminar esta Receta Medica?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <form action="{% url 'deleteReceta' historias.id %}" method="POST">
+                                        {% csrf_token %}
+                                        <input type="submit" class="btn btn-primary" value="Delete">
+                                    </form>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </tr>
+            <tr>
+
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="pagination">
+    <span class="step-links">
+        {% if historia.has_previous %}
+            <a href="?page=1">&laquo; Primero</a>
+            <a href="?page={{ historia.previous_page_number }}">Anterior</a>
+        {% else %}
+            <span class="disabled">&laquo; Primero</span>
+            <span class="disabled">Anterior</span>
+        {% endif %}
+
+      {% for page in historia.paginator.page_range %}
+    {% if historia.number == page %}
+      <span class="current-page">{{ page }}</span>
+    {% else %}
+      <a href="?page={{ page }}">{{ page }}</a>
+    {% endif %}
+  {% endfor %}
+
+        {% if historia.has_next %}
+            <a href="?page={{ historia.next_page_number }}">Siguiente</a>
+            <a href="?page={{ historia.paginator.num_pages }}">Último &raquo;</a>
+        {% else %}
+            <span class="disabled">Siguiente</span>
+            <span class="disabled">Último &raquo;</span>
+        {% endif %}
+    </span>
+
+        </div>
+
+
+    </div>
+
+
+    {% endblock %}

@@ -1,0 +1,437 @@
+
+* {
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+section {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+section .bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+}
+
+section .trees {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 100;
+    pointer-events: none;
+}
+
+section .girl {
+    position: absolute;
+    scale: 0.65;
+    animation: animateGirl 5s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes animateGirl {
+    0% {
+        transform: translateX(calc(100% + 100vw));
+    }
+
+    50% {
+        transform: translatex(calc(-100% - 100vw));
+
+    }
+
+    50.01% {
+        transform: translateX(calc(-100% - 100vw)) rotateY(180deg);
+        ;
+
+    }
+
+    100% {
+        transform: translatex(calc(100% + 100vw)) rotateY(180deg);
+        ;
+
+    }
+}
+
+
+
+
+.leaves {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.leaves .set {
+    position: relative;
+    width: 100%;
+    pointer-events: none;
+}
+
+.leaves .set div {
+    position: absolute;
+    display: block;
+}
+
+.leaves .set div:nth-child(1) {
+    left: 20%;
+    animation: animate 20s linear infinite;
+}
+
+.leaves .set div:nth-child(2) {
+    left: 50%;
+    animation: animate 14s linear infinite;
+}
+
+.leaves .set div:nth-child(3) {
+    left: 70%;
+    animation: animate 12s linear infinite;
+}
+
+.leaves .set div:nth-child(4) {
+    left: 5%;
+    animation: animate 15s linear infinite;
+}
+
+.leaves .set div:nth-child(5) {
+    left: 85%;
+    animation: animate 18s linear infinite;
+}
+
+.leaves .set div:nth-child(6) {
+    left: 90%;
+    animation: animate 12s linear infinite;
+}
+
+.leaves .set div:nth-child(7) {
+    left: 15%;
+    animation: animate 14s linear infinite;
+}
+
+.leaves .set div:nth-child(8) {
+    left: 60%;
+    animation: animate 15s linear infinite;
+}
+
+@keyframes animate {
+    0% {
+        opacity: 0;
+        top: -10%;
+        transform: translateY(20px) rotate(8deg);
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    20% {
+
+        transform: translatex(-20px) rotate(45deg)
+    }
+
+    40% {
+
+        transform: translatex(20px) rotate(90deg)
+    }
+
+    60% {
+
+        transform: translatex(-20px) rotate(180deg)
+    }
+
+    80% {
+
+        transform: translatex(20px) rotate(45deg)
+    }
+
+    100% {
+        top: 100%;
+        transform: translatex(-20px) rotate(225deg)
+    }
+}
+
+@media (max-width:1400px) {
+    .login h2 {
+        font-size: 22px;
+    }
+
+    .login input {
+        font-size: 15px;
+        padding: 5px 7px;
+    }
+    .login{
+        gap: 10px;
+        width: 350px;
+     }
+     .leaves .set div img{
+        width: 60%;
+    }
+
+}
+
+@media (max-width:480px) {
+    .login{
+       gap: 7px;
+       max-width: 300px;
+       padding: 30px;
+    }
+    .login h2 {
+        font-size: 20px;
+    }
+
+    .login input {
+        font-size: 13px;
+        padding: 6px 7px;
+    }
+    .login .inputBox #btn{
+        font-size: 13px;
+    }
+    .leaves .set div img{
+        width: 50%;
+    }
+
+}
+
+
+/*INTRANET MAIN*/
+
+
+.body_intranet_container {
+
+    position: relative;
+
+    width: 100%;
+
+}
+
+.icono-personalizado {
+  color: rgb(0,65,101); /* Cambia los valores RGB según el color deseado */
+}
+
+
+.container__title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main__intranet__title{
+    text-align: center;
+    overflow-wrap: break-word;  
+}
+.main__intranet__title h1 {
+    color: #423e3e;
+    font-size: 30px; /* Ajusta el tamaño de letra según tus preferencias */
+}
+
+
+.intranet__table {
+    display: grid;
+    width: 100%;
+    gap: 10px;
+    padding: 5px;
+    overflow: auto;
+
+}
+
+
+.cells {
+
+
+    height: 40px;
+    min-height: 20px;
+    text-align: center;
+    font-size: 12px;
+    overflow: auto;
+    padding:15px;
+   
+
+}
+
+
+
+
+.cellls__title {
+
+    height: 45px;
+    background-color: #E1624E;
+    min-width: 100px;
+    overflow: hidden;
+    color:  #fdfdfd;
+    
+}
+
+
+
+.box_container{
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap:wrap;
+    overflow: auto;
+
+
+}
+.configuracion__cuenta,
+.configuracion__usuarios,
+.configuracion_pacientes {
+    position: relative;
+    text-decoration: none;
+    color: #000;
+    padding: 50px;
+
+}
+
+.configuracion_caja {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+background: #fafafa;
+
+    transition: all 400ms linear;
+    box-shadow: 10px 10px 5px 0 rgba(0, 0, 0, 0.12);
+border: 1px solid gray;
+
+}
+
+.configuracion_caja:hover {
+    scale: 1.1;
+    color: #C3453A;
+
+}
+
+.titulo__config {
+
+    text-align: center;
+    max-inline-size: 300px;
+    overflow-wrap: break-word;
+
+}
+.titulo__config h2{
+    padding: 15px;
+    font-size: 20px;
+    font-weight: 700;
+
+}
+
+.contenido {
+    position: relative;
+    width: 350px;
+    height: 200px;
+ overflow: hidden;
+
+}
+
+.contenido img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover ;
+
+}
+
+@media (max-width:500px){
+.contenido {
+    position: relative;
+    width: 100%;
+    height: 100px;
+
+object-fit: cover;
+    align-items: center;
+
+}
+}
+
+
+.form-select {
+  width: 150px;
+}
+
+
+
+
+/*estilar el boton*/
+.main__intranet__btn button {
+    width: 180px;
+    height: 40px;
+    border: none;
+    background-color: #D9503F;
+    color: #ffff;
+    cursor: pointer;
+    border-radius: 15px;
+    transition: all 400ms linear
+}
+
+.main__intranet__btn button:hover {
+    scale: 1.1;
+    background-color: #D9503F;
+
+}
+
+.main__intranet__btn {
+    padding: 25px 0;
+}
+
+
+.custom-modal {
+    background-color: #D9503F;
+    color: white; /* Cambia el color del texto para que sea legible en el fondo azul */
+  }
+
+  /* Estilo para el sidebar */
+#accordionSidebar {
+    background-color: #E1624E;
+    transition: all 0.4s;
+}
+
+/* Cambiar el color del texto en el sidebar */
+#accordionSidebar a.nav-link {
+    color: #fff; /* Color de texto blanco */
+}
+
+/* Cambiar el color del ícono en el sidebar (si estás utilizando íconos) */
+#accordionSidebar .fas {
+    color: #fff; /* Color de texto blanco para íconos */
+}
+
+/* Estilo para el enlace activo en el sidebar */
+#accordionSidebar .nav-item.active a.nav-link {
+    background-color: #D9503F; /* Cambia el color de fondo del enlace activo */
+}
+
+/* Estilo para los enlaces en el sidebar al pasar el mouse por encima */
+#accordionSidebar .nav-item:hover a.nav-link {
+    background-color: #FF725E; /* Cambia el color de fondo al pasar el mouse por encima */
+}
+
+/* Estilo para el logotipo en el sidebar (si tienes uno) */
+#accordionSidebar .sidebar-brand {
+    background-color: #D9503F; /* Cambia el color de fondo del logotipo */
+}
+
+/* Estilo para el logotipo en el sidebar al pasar el mouse por encima (si tienes uno) */
+#accordionSidebar .sidebar-brand:hover {
+    background-color: #FF725E; /* Cambia el color de fondo al pasar el mouse por encima */
+}

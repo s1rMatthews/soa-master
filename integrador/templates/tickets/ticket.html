@@ -1,0 +1,181 @@
+{% extends "index.html" %}
+{% block body3 %}
+<div class="main__intranet__container">
+    <div class="container__title">
+        
+        <div class="main__intranet__title">
+            <br>
+            <h1>Seguimiento de Ticket</h1>
+        </div>
+    </div>
+
+<div class="btn-container">
+    &nbsp
+  <a class="btn btn-warning me-1" href="{% url 'addticket' %}">
+    <i class="fa-solid fa-user-plus"></i>
+  </a>
+
+  <div class="form-group">
+    <form id="my-form">
+        <label for="export-button" class="btn btn-primary">Exportar a Excel</label>
+        <button type="button" id="export-button" class="btn btn-primary" style="display:none;" data-toggle="modal" data-target="#modalAlerta" onclick="exportToExcel()">Exportar</button>
+    </form>
+  </div>
+</div>
+<script>
+function exportToExcel() {
+    window.location.href = "{% url 'exportTickets' %}";
+}
+</script>
+
+
+<script>
+function showButton() {
+  var fileInput = document.getElementById("file-input");
+  var submitButton = document.getElementById("submit-button");
+
+  if (fileInput.value != "") {
+    submitButton.style.display = "inline-block";
+  }
+}
+</script>
+
+
+
+    <div class="main__intranet__table__title intranet__table">
+
+        <table>
+
+            <thead>
+            <tr>
+                <th class="cells cellls__title">Nro Ticket</th>
+                <th class="cells cellls__title">Paciente</th>
+                <th class="cells cellls__title">Fecha de Ticket</th>
+                <th class="cells cellls__title">Estado</th>
+                <th class="cells cellls__title">Detalles</th>
+                <th class="cells cellls__title">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for tickets in ticket %}
+            <tr>
+                <td class="cells cells__content">{{ tickets.nroTicket}}</td>
+                <td class="cells cells__content">{{ tickets.paciente.name  }}</td>
+                <td class="cells cells__content">{{ tickets.fechaTicket}}</td>
+                <td class="cells cells__content">{{ tickets.estado}}</td>
+                <td class="cells cells__content">
+                    <button type="button" class="btn btn-success me-1" data-bs-toggle="modal"
+                            data-bs-target="#myModal{{tickets.id}}">
+                        <i class="fa-solid fa-circle-info fa-lg"></i>
+                    </button>
+                </td>
+                <td class="cells cells__content">
+                    <!-- Modal - View Citas -->
+                    <div class="modal" id="myModal{{tickets.id}}" tabindex="-1" aria-labelledby="myModalLabel1"
+                         aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">
+                                        Ticket: {{ tickets.id }}
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <ul class="list-unstyled">
+                                        <li>Paciente: <strong>{{ tickets.paciente.name }} {{ tickets.paciente.lastName }}</strong></li>
+                                        <li>Dni Paciente: <strong>{{ tickets.paciente.dni }}</strong></li>
+                                        <li>Telefono: <strong>{{ tickets.paciente.celp }}</strong></li>
+                                        <li>Fecha Ticket: <strong>{{ tickets.fechaTicket }}</strong></li>
+                                        <li>Estado: <strong>{{ tickets.estado }}</strong></li>
+                                    </ul>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="btn btn-dark me-1" href="{% url 'ticket_pdf' tickets.pk %}">
+                        <i class="fa-regular fa-file-pdf"></i>
+                    </a>
+
+                    <a class="btn btn-warning me-1" href="{% url 'editTicket' tickets.id %}">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                    </a>
+
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                            data-bs-target="#delete{{tickets.id}}">
+                        <i class="fa-solid fa-trash fa-lg"></i>
+                    </button>
+                    <!-- Modal - Delete Student -->
+                    <div class="modal" id="delete{{tickets.id}}" tabindex="-1" aria-labelledby="myModalLabel1"
+                         aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">
+                                        Ticket: {{ tickets.nroTicket }}
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Estas seguro de Eliminar este ticket?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <form action="{% url 'deleteTicket' tickets.id %}" method="POST">
+                                        {% csrf_token %}
+                                        <input type="submit" class="btn btn-primary" value="Delete">
+                                    </form>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </tr>
+            <tr>
+
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="pagination">
+    <span class="step-links">
+        {% if ticket.has_previous %}
+            <a href="?page=1">&laquo; Primero</a>
+            <a href="?page={{ ticket.previous_page_number }}">Anterior</a>
+        {% else %}
+            <span class="disabled">&laquo; Primero</span>
+            <span class="disabled">Anterior</span>
+        {% endif %}
+
+      {% for page in ticket.paginator.page_range %}
+    {% if ticket.number == page %}
+      <span class="current-page">{{ page }}</span>
+    {% else %}
+      <a href="?page={{ page }}">{{ page }}</a>
+    {% endif %}
+  {% endfor %}
+
+        {% if ticket.has_next %}
+            <a href="?page={{ ticket.next_page_number }}">Siguiente</a>
+            <a href="?page={{ ticket.paginator.num_pages }}">Último &raquo;</a>
+        {% else %}
+            <span class="disabled">Siguiente</span>
+            <span class="disabled">Último &raquo;</span>
+        {% endif %}
+    </span>
+
+        </div>
+
+
+    </div>
+    
+
+    {% endblock %}

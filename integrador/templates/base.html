@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <link rel="shortcut icon" href="#">
+    <link rel="stylesheet" href="{% static 'css/tabla.css' %}">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Styles -->
+ <link rel="stylesheet" href="{% static 'css/user-header.css' %}">
+
+    <title>Clinica</title>
+</head>
+
+<body>
+<div id="wrapper">
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion toggled" id="accordionSidebar">
+
+        <a class="navbar-brand d-flex align-items-center justify-content-center m-0">
+            <div class="text-center">
+                <a href="">
+                    <img class="w-100 h-auto text-center" src="{% static 'img/logo.png' %}" alt="logo">
+                </a>
+            </div>
+        </a>
+
+        <br>
+        <hr class="sidebar-divider">
+
+        <div class="welcome">
+            <p class="text-light text-center" style="font-size: smaller;">{{ request.user.first_name }} {{ request.user.last_name }}</p>
+        </div>
+
+        <hr class="sidebar-divider">
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'asignacion' %}" data-toggle="" data-target="">
+                <i class="fa-solid fa-file-excel"></i>
+                <span>Equipos Medicos</span>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'citas' %}" data-toggle="" data-target="">
+                <i class="fa-solid fa-file-excel"></i>
+                <span>Citas</span>
+            </a>
+        </li>
+ <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'tickets' %}" data-toggle="" data-target="">
+                <i class="fa-solid fa-clock"></i>
+                <span>Ticket</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'recetas' %}" data-toggle="" data-target="">
+                <i class="fa-solid fa-clock"></i>
+                <span>Recetas Medicas</span>
+            </a>
+        </li>
+     
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'historias' %}" data-toggle="" data-target="">
+                <i class="fa-solid fa-file-invoice"></i>
+                <span>Historias</span>
+            </a>
+        </li>
+        
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'seleccionar_seguro' %}" data-toggle="" data-target="">
+                <i class="fa-solid fa-notes-medical"></i>
+                <span>Seguros</span>
+            </a>
+        </li>
+
+     <li class="nav-item">
+            <a class="nav-link collapsed" href="{% url 'setting'  %}" data-toggle="" data-target="">
+                <i class="fa-solid fa-gear"></i>
+                <span>Configuraciones</span>
+            </a>
+        </li>
+    <li class="nav-item">
+             {% if user.is_authenticated %}
+
+                    <a class="nav-link collapsed" href="{% url 'logout' %}"><i
+                            class="fa-solid fa-right-from-bracket icon"></i>
+                        <span class="text-bar">Cerrar Sesion</span></a>
+
+                {% endif %}
+        </li>
+
+        <hr class="sidebar-divider d-none d-md-block">
+        <div class="text-center d-none d-md-inline">
+            <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div>
+    </ul>
+    <div class="body_intranet_container">
+        {% block body %}
+       {% endblock %}
+       <script>
+        {% if messages %}
+        // Función para mostrar el modal con un mensaje
+        function showMessageModal(message) {
+            var messageModal = new bootstrap.Modal(document.getElementById('messageModal'));
+            var messageText = document.getElementById('messageText');
+            messageText.innerText = message;
+            messageModal.show();
+        }
+    
+        // Recorre los mensajes y muestra cada uno en el modal
+        {% for message in messages %}
+        showMessageModal("{{ message }}");
+        {% endfor %}
+        {% endif %}
+    </script>
+    </div>
+
+    </div>
+    <div class="modal fade" id="messageModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content  ">
+            <div class="modal-header custom-modal">
+              <h5 class="modal-title" id="exampleModalLabel">Mensaje</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p id="messageText"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.js" integrity="sha512-+k1pnlgt4F1H8L7t3z95o3/KO+o78INEcXTbnoJQ/F2VqDVhWoaiVml/OEHv9HsVgxUaVW+IbiZPUJQfF/YxZw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="{% static 'lib/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'lib/bootstrap.bundle.js.map' %}"></script>
+<script src="{% static 'lib/bootstrap.bundle.min.js.map' %}"></script>
+<script src="{% static 'js/_user-header.js' %}"></script>
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</html>

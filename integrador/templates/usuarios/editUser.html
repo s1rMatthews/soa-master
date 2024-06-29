@@ -1,0 +1,32 @@
+{% extends "index.html" %}
+{% block body3 %}
+ <div class="main__intranet__container">
+<h3 class="text-center m-4">Editar Usuario</h3>
+{% if success %}
+    <div class="alert alert-success" role="alert">
+        Usuario Editado Con Exito
+        <a href="{% url 'setting' %}" class="alert-link">Go To Home</a>
+    </div>
+{% else %}
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="card bg-light mb-3">
+  <div class="card-header">
+      <i class="fa-solid fa-pen-to-square fa-lg"></i> Edición de Usuarios</div>
+  <div class="card-body">
+      <form action=" " method="POST">
+       
+          {% csrf_token %}
+          {{ form.as_p }}
+          <div class="form-group">
+          <button type="submit" class="btn btn-primary">Edit</button>
+          &nbsp
+          <a href="{% url 'setting' %}" class="btn btn-secondary">Volver</a>
+        </div>
+      </form>
+  </div>
+        </div>
+    </div>
+    </div>
+ {% endif %}
+{% endblock %}

@@ -1,0 +1,170 @@
+{% extends "index.html" %}
+{% block body3 %}
+<div class="main__intranet__container">
+    <div class="container__title">
+   
+        <div class="main__intranet__title">
+            <br>
+            <h1>Configuracion de Enfermeros</h1>
+        </div>
+    </div>
+
+<div class="btn-container">
+    &nbsp
+  <a class="btn btn-warning me-1" href="{% url 'addEnfermero' %}">
+    <i class="fa-solid fa-user-plus"></i>
+  </a>
+  <div class="form-group">
+    <form id="my-form" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <label for="file-input" class="btn btn-primary">Carga Masiva</label>
+        <input type="file" id="file-input" name="my_file" style="display:none;" onchange="showButton()">
+        <button type="submit" id="submit-button" class="btn btn-primary" style="display:none;" data-toggle="modal" data-target="#modalAlerta">Enviar</button>
+    </form>
+  </div>
+</div>
+
+
+<script>
+function showButton() {
+  var fileInput = document.getElementById("file-input");
+  var submitButton = document.getElementById("submit-button");
+
+  if (fileInput.value != "") {
+    submitButton.style.display = "inline-block";
+  }
+}
+</script>
+
+
+
+    <div class="main__intranet__table__title intranet__table">
+
+        <table>
+
+            <thead>
+            <tr>
+                <th class="cells cellls__title">Nombre</th>
+                <th class="cells cellls__title">Apellidos</th>
+                <th class="cells cellls__title">DNI</th>
+                <th class="cells cellls__title">Detalles</th>
+                <th class="cells cellls__title">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for medicos in medico %}
+            <tr>
+                <td class="cells cells__content">{{ medicos.name }}</td>
+                <td class="cells cells__content">{{ medicos.lastName }}</td>
+                <td class="cells cells__content">{{ medicos.dni }}</td>
+                <td class="cells cells__content">
+                    <button type="button" class="btn btn-success me-1" data-bs-toggle="modal"
+                            data-bs-target="#myModal{{medicos.id}}">
+                        <i class="fa-solid fa-circle-info fa-lg"></i>
+                    </button>
+                </td>
+                <td class="cells cells__content">
+                    <!-- Modal - View Student -->
+                    <div class="modal" id="myModal{{medicos.id}}" tabindex="-1" aria-labelledby="myModalLabel1"
+                         aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">
+                                        Medico: {{ medicos.name }} {{ medicos.lastName }}
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <ul class="list-unstyled">
+                                        <li>DNI: <strong>{{ medicos.dni }}</strong></li>
+                                        <li>Email: <strong>{{ medicos.email }}</strong></li>
+                                        <li>Telefono: <strong>{{ medicos.celp }}</strong></li>
+                                        <li>Tipo: <strong>{{ medicos.tipo }}</strong></li>
+                                    </ul>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="btn btn-warning me-1" href="{% url 'editEnfermero' medicos.id %}">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                    </a>
+
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                            data-bs-target="#delete{{medicos.id}}">
+                        <i class="fa-solid fa-trash fa-lg"></i>
+                    </button>
+                    <!-- Modal - Delete Student -->
+                    <div class="modal" id="delete{{medicos.id}}" tabindex="-1" aria-labelledby="myModalLabel1"
+                         aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">
+                                        Medico: {{ medicos.name }} {{ medicos.lastName }}
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true"></span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>Estas seguro de Eliminar este medico?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <form action="{% url 'deleteEnfermero' medicos.id %}" method="POST">
+                                        {% csrf_token %}
+                                        <input type="submit" class="btn btn-primary" value="Delete">
+                                    </form>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </tr>
+            <tr>
+
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="pagination">
+    <span class="step-links">
+        {% if medico.has_previous %}
+            <a href="?page=1">&laquo; Primero</a>
+            <a href="?page={{ medico.previous_page_number }}">Anterior</a>
+        {% else %}
+            <span class="disabled">&laquo; Primero</span>
+            <span class="disabled">Anterior</span>
+        {% endif %}
+
+      {% for page in medico.paginator.page_range %}
+    {% if medico.number == page %}
+      <span class="current-page">{{ page }}</span>
+    {% else %}
+      <a href="?page={{ page }}">{{ page }}</a>
+    {% endif %}
+  {% endfor %}
+
+        {% if medico.has_next %}
+            <a href="?page={{ medico.next_page_number }}">Siguiente</a>
+            <a href="?page={{ medico.paginator.num_pages }}">Último &raquo;</a>
+        {% else %}
+            <span class="disabled">Siguiente</span>
+            <span class="disabled">Último &raquo;</span>
+        {% endif %}
+    </span>
+
+        </div>
+
+
+    </div>
+
+    {% endblock %}

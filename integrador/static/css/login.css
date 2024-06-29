@@ -1,0 +1,84 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+  }
+  /*LOGIN*/
+  .box{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .form-login{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: white;
+    width: 400px;
+    height: 400px;
+    padding: 45px 30px;
+    border-radius: 10px;
+  }
+  .box .avatar {
+    width: 255px;
+    height: 250px;
+    margin: auto;
+  }
+  #btn-login{
+    background-color: #E1624E;
+    color: white;
+    padding: 7px 12px;
+    border: none;
+    font-size: 13px;
+    border-radius: 5px;
+  }
+  #btn-register{
+    background-color: white;
+    padding: 7px 12px;
+    border: 1px solid  #E1624E;
+    font-size: 13px;
+    border-radius: 5px;
+  }
+  .box label {
+    font-weight: bold;
+  }
+  
+  .box input {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+ 
+  .box input[type="submit"] {
+    height: 40px;
+    background:  #E1624E;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 10px;
+  }
+  
+  .box input[type="submit"]:hover {
+    cursor: pointer;
+    background: #12024a;
+  }
+  .custom-alert {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #ff0000; /* Color de fondo para mensajes de error */
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    z-index: 9999;
+}
+
+.custom-alert.success {
+    background-color: #00ff00; /* Color de fondo para mensajes de éxito */
+}
+
+.custom-modal {
+  background-color: #E1624E;
+  color: white; /* Cambia el color del texto para que sea legible en el fondo azul */
+}
