@@ -1,2 +1,2 @@
 # Clinica
-Proyecto integrador2
+Proyecto SOA
